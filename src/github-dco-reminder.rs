@@ -1,5 +1,9 @@
 use github_flows::octocrab::models::repos::RepoCommit;
-use github_flows::{get_octo, listen_to_event, octocrab::Result as OctoResult, EventPayload};
+use github_flows::{
+    get_octo, listen_to_event,
+    octocrab::{models::events::payload::PullRequestEventAction, Result as OctoResult},
+    EventPayload,
+};
 use lazy_static::lazy_static;
 use regex::Regex;
 use tokio::*;
@@ -10,16 +14,9 @@ pub async fn run() -> anyhow::Result<()> {
     let owner = "WasmEdge";
     let repo = "WasmEdge";
 
-    listen_to_event(
-        owner,
-        repo,
-        vec![
-            "pull_request",
-            "pull_request_comment",
-            "pull_request_comment_review",
-        ],
-        |payload| handler(owner, repo, payload),
-    )
+    listen_to_event(owner, repo, vec!["pull_request"], |payload| {
+        handler(owner, repo, payload)
+    })
     .await;
 
     Ok(())
@@ -36,13 +33,9 @@ async fn handler(owner: &str, repo: &str, payload: EventPayload) {
 
     match payload {
         EventPayload::PullRequestEvent(e) => {
-            pull = Some(e.pull_request);
-        }
-
-        EventPayload::PullRequestReviewEvent(e) => {
-            pull = Some(e.pull_request);
-        }
-        EventPayload::PullRequestReviewCommentEvent(e) => {
+            if e.action != PullRequestEventAction::Opened {
+                return;
+            }
             pull = Some(e.pull_request);
         }
 
