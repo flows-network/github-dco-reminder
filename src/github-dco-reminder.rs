@@ -33,7 +33,7 @@ async fn handler(owner: &str, repo: &str, payload: EventPayload) {
 
     match payload {
         EventPayload::PullRequestEvent(e) => {
-            if e.action != PullRequestEventAction::Opened {
+            if e.action == PullRequestEventAction::Closed {
                 return;
             }
             pull = Some(e.pull_request);
