@@ -1,0 +1,19 @@
+[package]
+name = "github-dco-reminder"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/github-dco-reminder.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+github-flows = "0.3.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.93"
+slack-flows = "0.2.5"
+tokio_wasi = { version = "1.25.1", features = ["macros", "rt"] }
+anyhow = "1"
+flowsnet-platform-sdk = "0.1.2"
+lazy_static = "1.4.0"
+regex = "1.7.1"
