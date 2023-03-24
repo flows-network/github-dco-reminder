@@ -6,29 +6,29 @@ use github_flows::{
 };
 use lazy_static::lazy_static;
 use regex::Regex;
-use tokio::*;
 
 #[no_mangle]
 #[tokio::main(flavor = "current_thread")]
 pub async fn run() -> anyhow::Result<()> {
+    let login = "alabulei1";
     let owner = "WasmEdge";
     let repo = "WasmEdge";
 
-    listen_to_event(owner, repo, vec!["pull_request"], |payload| {
-        handler(owner, repo, payload)
+    listen_to_event(login, owner, repo, vec!["pull_request"], |payload| {
+        handler(login, owner, repo, payload)
     })
     .await;
 
     Ok(())
 }
 
-async fn handler(owner: &str, repo: &str, payload: EventPayload) {
+async fn handler(login: &str, owner: &str, repo: &str, payload: EventPayload) {
     lazy_static! {
         static ref RE: Regex =
             Regex::new(r#"Signed-off-by: \w+ <[\w._%+-]+@[\w.-]+\.\w{2,4}>"#).unwrap();
     }
 
-    let octocrab = get_octo(Some(String::from(owner)));
+    let octocrab = get_octo(Some(String::from(login)));
     let mut pull = None;
 
     match payload {
