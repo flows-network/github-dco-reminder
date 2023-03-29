@@ -1,7 +1,7 @@
 # GitHub DCO  Reminder
 
 
-[Deploy this function on flows.network](#deploy-dco-reminder-app-on-your-github-repo), and you will get a GitHub bot that remindering the contributore if the DCO test passed. It saves maintainers' time to review a PR!
+[Deploy this function on flows.network](#deploy-dco-reminder-app-on-your-github-repo), and you will get a GitHub bot that remindering the contributor if the DCO test failed. It saves maintainers' time to review a PR!
 
 <img width="924" alt="image" src="https://user-images.githubusercontent.com/45785633/227521014-66168f85-a5b4-4ec6-98ec-210f2c87eb88.png">
 
